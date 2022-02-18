@@ -108,8 +108,8 @@ class meta_ban:
                 
                 
     def get_group_new(self, u, context):
+        g = set([u])
         for tensor in context:
-            g = set([u])
             tensor = torch.from_numpy(tensor).float().to(device)
             u_pred = self.u_funcs[u](tensor)
             for i in self.users:
