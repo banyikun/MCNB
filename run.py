@@ -55,7 +55,7 @@ if __name__ == '__main__':
         
     elif method == "meta_ban":
         if data == "mnist":
-            model = meta_ban(dim = b.dim, n = b.num_user, n_arm = 10, gamma = 0.32, lr = 0.0001, user_side = 1)
+            model = meta_ban(dim = b.dim, n = b.num_user, n_arm = 10, gamma = 0.1, lr = 0.0001, user_side = 1)
         else:
             model = meta_ban(dim = b.dim, n = b.num_user, n_arm = 10, gamma = 0.32, lr = 0.0001)
     
