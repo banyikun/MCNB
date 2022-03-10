@@ -51,17 +51,6 @@ class meta_ban:
         self.contexts = defaultdict(list)
         self.rewards = defaultdict(list)
         
-            
-    def get_group(self, u, tensor):
-        g = []
-        u_pred = self.u_funcs[u](tensor)
-        for i in self.users:
-            if abs(self.u_funcs[i](tensor) -  u_pred) < self.gamma:
-                g.append(i)
-        if len(g) > 4:
-            return np.random.choice(list(g), 4)
-        else: 
-            return g
     
     
     def update(self, u, context, reward, g):
@@ -71,7 +60,7 @@ class meta_ban:
 
             
     def train_meta(self, g, t):
-        optimizer = optim.Adam(self.gmodel.parameters(), lr=self.lr)
+        optimizer = optim.Adam(self.gmodel.parameters(), lr=self.meta_lr)
         index = []
         for u in g:
             for j in range(len(self.rewards[u])):
@@ -108,14 +97,15 @@ class meta_ban:
                 
                 
     def get_group_new(self, u, context):
-        g = set([u])
+        
         for tensor in context:
+            g = []
             tensor = torch.from_numpy(tensor).float().to(device)
             u_pred = self.u_funcs[u](tensor)
             for i in self.users:
                 if abs(self.u_funcs[i](tensor) -  u_pred) < self.gamma:
                     #if u_pred>0.0:
-                    g.add(i)
+                    g.append(i)
         return g
 
     def recommend(self, u, context, t):
@@ -152,6 +142,8 @@ class meta_ban:
         ucb_list = np.array(ucb_list)
         arm = np.argmax(sample_rs)
         #g = s_g[arm]
+        if self.user_side ==1:
+            g = [u]
         return arm, g,res_list, ucb_list
     
     
@@ -191,5 +183,8 @@ class meta_ban:
                 return batch_loss / length
             
             
+   
+
+
    
 
