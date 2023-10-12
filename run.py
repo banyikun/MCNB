@@ -4,22 +4,24 @@ from cofiba import COFIBA
 from sclub import SCLUB
 from neuucb_ind import neuucb_ind
 from neuucb_one import neuucb_one
-from meta_ban import meta_ban
+from mcnb import meta_ban
 import argparse
 import numpy as np
 import sys 
 
 from load_data import load_movielen_new, load_yelp_new, load_notmnist_mnist_2
+from load_data_add import Bandit_multi
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Meta-Ban')
     parser.add_argument('--dataset', default='movie', type=str, help='mnist, yelp, movie')
     parser.add_argument('--method', default='neuucb_ind', type=str, help='locb, club, sclub, cofiba, neuucb_one, neuucb_ind, meta_ban')
+    parser.add_argument('--seed', default=0, type=int, help='seed')
     args = parser.parse_args()
     
     data = args.dataset
-    
+    additional_datasets = ['fashion','MagicTelescope','mushroom']
     if data == "mnist":
         b = load_notmnist_mnist_2()
         
@@ -28,6 +30,8 @@ if __name__ == '__main__':
         
     elif data == "movie":
         b = load_movielen_new()
+    elif data in additional_datasets:
+        b = Bandit_multi(data)
     else:
         print("dataset is not defined. --help")
         sys.exit()
@@ -45,7 +49,7 @@ if __name__ == '__main__':
         model = SCLUB(nu = b.num_user, d = b.dim)
         
     elif method == "cofiba":
-        model = COFIBA(num_users = b.num_user, d = b.dim, num_rounds=10000, L =10)
+        model = COFIBA(num_users = b.num_user, d = b.dim, num_rounds=10000, L = b.n_arm)
         
     elif method == "neuucb_ind":
         model = neuucb_ind(dim = b.dim, n = b.num_user, n_arm = 10, lr = 0.001)
@@ -56,9 +60,11 @@ if __name__ == '__main__':
     elif method == "meta_ban":
         if data == "mnist":
             model = meta_ban(dim = b.dim, n = b.num_user, n_arm = 10, gamma = 0.1, lr = 0.0001, user_side = 1)
+        elif data in additional_datasets:
+            # 0.32
+            model = meta_ban(dim = b.dim, n = b.num_user, n_arm = 10, gamma = 0.32, lr = 0.0001, user_side = 1)
         else:
             model = meta_ban(dim = b.dim, n = b.num_user, n_arm = 10, gamma = 0.32, lr = 0.0001)
-    
     else:
         print("method is not defined. --help")
         sys.exit()
@@ -112,7 +118,10 @@ if __name__ == '__main__':
         if t % 50 == 0:
             print('{}: {:}, {:.4f}'.format(t, summ, summ/(t+1)))
     print("round:", t, "; ", "regret:", summ)
-    np.save("./regret",  regrets)
+    if args.seed:
+        np.save("regret/{}_{}_regret_{}".format(args.dataset, args.method, args.seed),  regrets)
+    else:
+        np.save("regret/{}_{}_regret".format(args.dataset, args.method),  regrets)
     
     
     
