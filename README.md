@@ -1,4 +1,4 @@
-# Meta_Ban
+# M_CNB
 
 ## Prerequisites: 
 
@@ -23,7 +23,7 @@ pandas 1.2.4
 * run.py - run all the methods
 
 ## Methods:
-"locb", "club", "sclub", "cofiba", "neuucb_one", "neuucb_ind", "meta_ban"
+"locb", "club", "sclub", "cofiba", "neuucb_one", "neuucb_ind", "m_cnb"
 
 ## Datasets:
 "mnist", "movie", "yelp"
@@ -31,5 +31,3 @@ pandas 1.2.4
 ## Run:
 python run.py --dataset "dataset" --method "method"
 
-For example,  to meta_ban on movie dataset:
-python run.py --dataset movie  --method meta_ban
