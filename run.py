@@ -57,7 +57,7 @@ if __name__ == '__main__':
     elif method == "neuucb_one":
         model = neuucb_one(b.dim, lamdba = 0.001, nu = 0.1) 
         
-    elif method == "meta_ban":
+    elif method == "m_cnb":
         if data == "mnist":
             model = meta_ban(dim = b.dim, n = b.num_user, n_arm = 10, gamma = 0.1, lr = 0.0001, user_side = 1)
         elif data in additional_datasets:
