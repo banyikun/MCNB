@@ -20,13 +20,14 @@ pandas 1.2.4
 
 * packages.py - all the needed packages
 * load_data.py - load the datasets
-* run.py - run all the methods
+* run.py - run the methods
+* read_movie.ipynb - show how we processed the data 
 
 ## Methods:
-"locb", "club", "sclub", "cofiba", "neuucb_one", "neuucb_ind", "m_cnb"
+"locb", "club", "sclub", "cofiba", "neuucb_one", "neuucb_ind", "mcnb"
 
 ## Datasets:
-"mnist", "movie", "yelp"
+"movie"
 
 ## Run:
 python run.py --dataset "dataset" --method "method"
