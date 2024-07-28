@@ -21,7 +21,7 @@ pandas 1.2.4
 * packages.py - all the needed packages
 * load_data.py - load the datasets
 * run.py - run the methods
-* read_movie.ipynb - show how we processed the data 
+* read_movie.ipynb - show how we processed the MovieLens data 
 
 ## Methods:
 "locb", "club", "sclub", "cofiba", "neuucb_one", "neuucb_ind", "mcnb"
