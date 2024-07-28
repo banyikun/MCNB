@@ -1,4 +1,4 @@
-# M_CNB
+# MCNB
 
 ## Prerequisites: 
 
